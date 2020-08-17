@@ -24,3 +24,4 @@ B: Rotate the BLUE face clockwise
 Y: Rotate the YELLOW face clockwise
 O: Rotate the ORANGE face clockwise
 G: Rotate the GREEN face clockwise
+Left Shift: Keeping it pressed makes all the previous rotations counterclockwise
