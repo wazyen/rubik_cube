@@ -145,7 +145,8 @@
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\mesh.cpp" />
     <ClCompile Include="..\..\src\rendertotexture.cpp" />
-    <ClCompile Include="..\..\src\rubik\piece.cpp" />
+    <ClCompile Include="..\..\src\rubik\cube.cpp" />
+    <ClCompile Include="..\..\src\rubik\cubelet.cpp" />
     <ClCompile Include="..\..\src\shader.cpp" />
     <ClCompile Include="..\..\src\texture.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
@@ -168,7 +169,8 @@
     <ClInclude Include="..\..\src\input.h" />
     <ClInclude Include="..\..\src\mesh.h" />
     <ClInclude Include="..\..\src\rendertotexture.h" />
-    <ClInclude Include="..\..\src\rubik\piece.h" />
+    <ClInclude Include="..\..\src\rubik\cube.h" />
+    <ClInclude Include="..\..\src\rubik\cubelet.h" />
     <ClInclude Include="..\..\src\rubik\includes.h" />
     <ClInclude Include="..\..\src\shader.h" />
     <ClInclude Include="..\..\src\texture.h" />

@@ -1,0 +1,7 @@
+game_debug*
+game.iobj
+game.ipdb
+game.pdb
+visualstudio/.vs/
+visualstudio/VS2015/Debug/
+visualstudio/VS2015/Release/

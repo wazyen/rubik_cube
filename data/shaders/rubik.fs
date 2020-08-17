@@ -12,7 +12,6 @@ uniform bool u_blue;
 uniform bool u_yellow;
 uniform bool u_orange;
 uniform bool u_green;
-uniform vec3 u_rotation;
 
 void main()
 {
@@ -32,13 +31,14 @@ void main()
 	// (0,0,-1): orange
 
 	// We pre-store the vector of each color inside a variable for convenience and legibility later on
-	vec3 black = vec3(0.1,0.1,0.1);
+	// Color RGB codes extracted from https://www.schemecolor.com/rubik-cube-colors.php
+	vec3 black = vec3(0.2,0.2,0.2);
 	vec3 white = vec3(1,1,1);
-	vec3 red = vec3(1,0,0);
-	vec3 blue = vec3(0,0,1);
-	vec3 yellow = vec3(1,1,0);
-	vec3 orange = vec3(1,0.4,0);
-	vec3 green = vec3(0,1,0);
+	vec3 red = vec3(0.73,0,0);
+	vec3 blue = vec3(0,0.27,0.68);
+	vec3 yellow = vec3(1,0.84,0);
+	vec3 orange = vec3(1,0.35,0);
+	vec3 green = vec3(0,0.61,0.28);
 
 	// we want to know whether the world normal vector has a 1 or a -1 in any position
 	// if it's positive, the face color can only be blue, white or red; otherwise green, yellow or orange

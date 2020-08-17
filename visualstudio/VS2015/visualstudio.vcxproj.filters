@@ -61,7 +61,10 @@
     <ClCompile Include="..\..\src\animation.cpp">
       <Filter>gfx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\rubik\piece.cpp">
+    <ClCompile Include="..\..\src\rubik\cubelet.cpp">
+      <Filter>rubik</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\rubik\cube.cpp">
       <Filter>rubik</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,10 +125,13 @@
     <ClInclude Include="..\..\src\animation.h">
       <Filter>gfx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\rubik\piece.h">
+    <ClInclude Include="..\..\src\rubik\includes.h">
       <Filter>rubik</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\rubik\includes.h">
+    <ClInclude Include="..\..\src\rubik\cubelet.h">
+      <Filter>rubik</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\rubik\cube.h">
       <Filter>rubik</Filter>
     </ClInclude>
   </ItemGroup>

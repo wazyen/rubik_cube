@@ -13,7 +13,7 @@
 
 //some globals
 float mouse_speed = 100.0f;
-std::vector<Piece*> pieces;
+Cube* cube = new Cube();
 
 Game* Game::instance = NULL;
 
@@ -43,15 +43,14 @@ Game::Game(int window_width, int window_height, SDL_Window* window)
 	//hide the cursor
 	SDL_ShowCursor(!mouse_locked); //hide or show the mouse
 
-	Piece* piece = new Piece(WHITE | RED | BLUE | YELLOW | ORANGE | GREEN);
-	pieces.push_back(piece);
+	cube = new Cube();
 }
 
 //what to do when the image has to be draw
 void Game::render(void)
 {
 	//set the clear color (the background color)
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(0.7, 0.7, 1.0, 1.0);
 
 	// Clear the window and the depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,14 +63,10 @@ void Game::render(void)
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
-	for (int i = 0; i < pieces.size(); i++)
-	{
-		Piece* piece = pieces[i];
-		piece->render(camera);
-	}
+	cube->render( camera );
 
 	//Draw the floor grid
-	drawGrid();
+	//drawGrid();
 
 	//render the FPS, Draw Calls, etc
 	drawText(2, 2, getGPUStats(), Vector3(1, 1, 1), 2);
@@ -85,18 +80,14 @@ void Game::update(double seconds_elapsed)
 	//mouse input to rotate the cam
 	if ((Input::mouse_state & SDL_BUTTON_LEFT) || mouse_locked ) //is left button pressed?
 	{
-		camera->rotate(Input::mouse_delta.x * 0.005f, Vector3(0.0f,-1.0f,0.0f));
+		camera->rotate(Input::mouse_delta.x * 0.005f, camera->getLocalVector( Vector3(0.0f,-1.0f,0.0f)));
 		camera->rotate(Input::mouse_delta.y * 0.005f, camera->getLocalVector( Vector3(-1.0f,0.0f,0.0f)));
 
 		camera->eye = camera->eye - camera->center;
 		camera->center = Vector3(0.f,0.f,0.f);
 	}
 
-	for (int i = 0; i < pieces.size(); i++)
-	{
-		Piece* piece = pieces[i];
-		piece->update(seconds_elapsed);
-	}
+	cube->update( seconds_elapsed );
 
 	//to navigate with the mouse fixed in the middle
 	if (mouse_locked)
@@ -109,64 +100,17 @@ void Game::onKeyDown( SDL_KeyboardEvent event )
 	if (event.repeat > 0)
 		return;
 
+	bool counter_clockwise = Input::isKeyPressed(SDL_SCANCODE_LSHIFT);
 	switch(event.keysym.sym)
 	{
 		case SDLK_ESCAPE: must_exit = true; break; //ESC key, kill the app
 		case SDLK_F1: Shader::ReloadAll(); break;
-		case SDLK_b:
-		{
-			for (int i = 0; i < pieces.size(); i++)
-			{
-				Piece* piece = pieces[i];
-				piece->addMovement(BLUE);
-			}
-			break;
-		}
-		case SDLK_g:
-		{
-			for (int i = 0; i < pieces.size(); i++)
-			{
-				Piece* piece = pieces[i];
-				piece->addMovement(GREEN);
-			}
-			break;
-		}
-		case SDLK_w:
-		{
-			for (int i = 0; i < pieces.size(); i++)
-			{
-				Piece* piece = pieces[i];
-				piece->addMovement(WHITE);
-			}
-			break;
-		}
-		case SDLK_y:
-		{
-			for (int i = 0; i < pieces.size(); i++)
-			{
-				Piece* piece = pieces[i];
-				piece->addMovement(YELLOW);
-			}
-			break;
-		}
-		case SDLK_r:
-		{
-			for (int i = 0; i < pieces.size(); i++)
-			{
-				Piece* piece = pieces[i];
-				piece->addMovement(RED);
-			}
-			break;
-		}
-		case SDLK_o:
-		{
-			for (int i = 0; i < pieces.size(); i++)
-			{
-				Piece* piece = pieces[i];
-				piece->addMovement(ORANGE);
-			}
-			break;
-		}
+		case SDLK_b: cube->addMovement(BLUE, counter_clockwise); break;
+		case SDLK_g: cube->addMovement(GREEN, counter_clockwise); break;
+		case SDLK_w: cube->addMovement(WHITE, counter_clockwise); break;
+		case SDLK_y: cube->addMovement(YELLOW, counter_clockwise); break;
+		case SDLK_r: cube->addMovement(RED, counter_clockwise); break;
+		case SDLK_o: cube->addMovement(ORANGE, counter_clockwise); break;
 	}
 }
 
