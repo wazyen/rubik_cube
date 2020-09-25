@@ -29,7 +29,6 @@ int Cubelet::getFaceIndex(Face_Color face)
 
 void Cubelet::render(Camera* camera)
 {
-
 	Mesh* mesh = Mesh::Get("data/box.ASE");
 	Shader* shader = Shader::Get("data/shaders/basic.vs", "data/shaders/flat.fs");
 
@@ -65,6 +64,7 @@ void Cubelet::render(Camera* camera)
 		//upload uniforms
 		shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
 		shader->setUniform("u_model", model);
+		shader->setUniform("u_eye", camera->eye);
 
 		std::string uniform_tags[6] = {"u_white", "u_red", "u_blue", "u_yellow", "u_orange", "u_green"};
 		unsigned short int tmp_faces = faces;

@@ -17,7 +17,7 @@ public:
 
 	Cube();
 
-	void addMovement(Face_Color face, bool counter_clockwise);
+	void addMovement(Face_Color face, bool is_counterclockwise);
 	void render(Camera* camera);
 	void update(double seconds_elapsed);
 };

@@ -63,6 +63,46 @@ void Game::render(void)
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
+	//render skybox
+	glDisable(GL_DEPTH_TEST);
+
+	Mesh* mesh = Mesh::Get("data/sphere.obj");
+	Shader* shader = Shader::Get("data/shaders/basic.vs", "data/shaders/texture.fs");
+	Texture* texture = Texture::Get("data/skysphere.tga");
+
+	shader->enable();
+
+	Matrix44 model;
+	model.translate( camera->eye.x, camera->eye.y, camera->eye.z );
+	
+	shader->setUniform("u_model", model);
+	shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
+	shader->setUniform("u_color", Vector4(1.f,1.f,1.f,1.f));
+	shader->setUniform("u_texture", texture, 0);
+
+	mesh->render(GL_TRIANGLES);
+
+	shader->disable();
+
+	glEnable(GL_DEPTH_TEST);
+
+	//render light source
+	shader = Shader::Get("data/shaders/basic.vs", "data/shaders/flat.fs");
+	shader->enable();
+
+	model.setIdentity();
+	model.translate(-300,300,-300);
+	model.scale(10,10,10);
+
+	shader->setUniform("u_model", model);
+	shader->setUniform("u_viewprojection", camera->viewprojection_matrix);
+	shader->setUniform("u_color", Vector4(1.f, 1.f, 1.f, 1.f));
+
+	mesh->render(GL_TRIANGLES);
+
+	shader->disable();
+
+	//render our rubik cube
 	cube->render( camera );
 
 	//Draw the floor grid
@@ -100,17 +140,17 @@ void Game::onKeyDown( SDL_KeyboardEvent event )
 	if (event.repeat > 0)
 		return;
 
-	bool counter_clockwise = Input::isKeyPressed(SDL_SCANCODE_LSHIFT);
+	bool is_counterclockwise = Input::isKeyPressed(SDL_SCANCODE_LSHIFT);
 	switch(event.keysym.sym)
 	{
 		case SDLK_ESCAPE: must_exit = true; break; //ESC key, kill the app
 		case SDLK_F1: Shader::ReloadAll(); break;
-		case SDLK_b: cube->addMovement(BLUE, counter_clockwise); break;
-		case SDLK_g: cube->addMovement(GREEN, counter_clockwise); break;
-		case SDLK_w: cube->addMovement(WHITE, counter_clockwise); break;
-		case SDLK_y: cube->addMovement(YELLOW, counter_clockwise); break;
-		case SDLK_r: cube->addMovement(RED, counter_clockwise); break;
-		case SDLK_o: cube->addMovement(ORANGE, counter_clockwise); break;
+		case SDLK_b: cube->addMovement(BLUE, is_counterclockwise); break;
+		case SDLK_g: cube->addMovement(GREEN, is_counterclockwise); break;
+		case SDLK_w: cube->addMovement(WHITE, is_counterclockwise); break;
+		case SDLK_y: cube->addMovement(YELLOW, is_counterclockwise); break;
+		case SDLK_r: cube->addMovement(RED, is_counterclockwise); break;
+		case SDLK_o: cube->addMovement(ORANGE, is_counterclockwise); break;
 	}
 }
 

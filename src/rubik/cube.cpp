@@ -35,11 +35,11 @@ Cube::Cube()
 	cubelets.push_back( new Cubelet( YELLOW | ORANGE | GREEN) );
 };
 
-void Cube::addMovement(Face_Color face, bool counter_clockwise)
+void Cube::addMovement(Face_Color face, bool is_counterclockwise)
 {
 	Movement movement;
 	movement.face = face;
-	movement.counter_clockwise = counter_clockwise;
+	movement.is_counterclockwise = is_counterclockwise;
 	if ( movements_queue.size() < 10 )
 		this->movements_queue.push(movement);
 };
@@ -78,7 +78,7 @@ void Cube::update(double seconds_elapsed)
 				movement.face == RED && cubelet->model.getTranslation().z > 100.f ||
 				movement.face == ORANGE && cubelet->model.getTranslation().z < -100.f)
 			{
-				cubelet->goal_rotation = (movement.counter_clockwise ? -1 : 1) * (PI / 2.f) * Cubelet::face_vectors[Cubelet::getFaceIndex(movement.face)];
+				cubelet->goal_rotation = (movement.is_counterclockwise ? -1 : 1) * (PI / 2.f) * Cubelet::face_vectors[Cubelet::getFaceIndex(movement.face)];
 			}
 		}
 	}

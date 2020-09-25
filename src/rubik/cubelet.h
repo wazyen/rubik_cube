@@ -10,7 +10,7 @@ enum Face_Color { WHITE = 1, RED = 2, BLUE = 4, YELLOW = 8, ORANGE = 16, GREEN =
 typedef struct sMovement
 {
 	Face_Color face;
-	bool counter_clockwise;
+	bool is_counterclockwise;
 } Movement;
 
 class Cubelet

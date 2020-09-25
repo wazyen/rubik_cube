@@ -6,6 +6,8 @@ varying vec3 v_world_normal;
 varying vec2 v_uv;
 varying vec4 v_color;
 
+uniform vec3 u_eye;
+
 uniform bool u_white;
 uniform bool u_red;
 uniform bool u_blue;
@@ -55,6 +57,26 @@ void main()
 	{
 		color = -world_normal.x * (u_green ? green : black) - world_normal.y * (u_yellow ? yellow : black) - world_normal.z * (u_orange ? orange : black);
 	}
+	
+	vec3 P = v_world_position;
+	vec3 eye = u_eye;
+	vec3 light = vec3(-300.f,300.f,-300.f);
+	
+	vec3 Ia = vec3(0.3,0.3,0.3);
+	vec3 Id = vec3(1.0,1.0,1.0);
+	vec3 Is = vec3(1,1,1);
+	vec3 K = color;
+	float shininess = 10.f;
+	
+	vec3 L = normalize( light - P );
+	vec3 N = normalize( v_normal );
+	vec3 R = normalize( reflect( -L, N ) );
+	vec3 V = normalize( eye - P );
 
-	gl_FragColor = vec4(color,1.0);
+	vec3 color_a = K * Ia;
+	vec3 color_d = K * Id * max( 0, dot( L, N ) );
+	vec3 color_s = K * Is * pow( max( dot( R, V ), 0 ), shininess );
+	vec3 color_p = color_a + color_d + color_s;
+
+	gl_FragColor = vec4(color_p,1.0);
 }
